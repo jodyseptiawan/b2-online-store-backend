@@ -3,6 +3,13 @@ const z = require("zod");
 
 // Get all data
 exports.findUser = async (req, res) => {
+  // token = id card
+  const token = true;
+
+  if (!token) {
+    return res.status(401).send({ message: "Unauthorized" });
+  }
+
   const query = `SELECT * FROM public."Users";`;
 
   const data = await db.query(query);
@@ -25,7 +32,7 @@ exports.getUserById = async (req, res) => {
   res.send(data.rows[0]);
 };
 
-const createUserValidation = (data) => {
+exports.createUserValidation = (data) => {
   const createUserSchema = z.object({
     name: z
       .string()
